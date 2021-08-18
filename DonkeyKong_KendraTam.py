@@ -721,6 +721,7 @@ instructions()
 #loop whole game if user wants to keep restarting
 pygame.init()
 walk = pygame.mixer.Sound("walking\\walking.wav")
+jump = pygame.mixer.Sound("jump\\jump.wav")
 while replay:
 
     
@@ -1179,6 +1180,8 @@ while replay:
         #looks for space to be pressed to make pressed True and start the game
         if keys[pygame.K_SPACE]:
             pressed = True
+            if not pygame.mixer.get_busy():
+                pygame.mixer.Sound.play(jump)
         
         #must satisfy all these conditions in order for pressing  the left, right, up, down, space(for jumping), and return key to do anything
         if (gameStart and jumpLeft == False and jumpRight == False and jumpStill == False and winLevel == False and hit == False) or gameDone or winGame:      
@@ -1206,6 +1209,8 @@ while replay:
                 if keys[pygame.K_SPACE]:
                     jumpLeft = True
                     marioImage = marioJumpLeft
+                    # if not pygame.mixer.get_busy():
+                    pygame.mixer.Sound.play(jump)
                 
                 direction = "left"
             #looks for right arrow to be pressed   
