@@ -1210,6 +1210,7 @@ while replay:
                     jumpLeft = True
                     marioImage = marioJumpLeft
                     # if not pygame.mixer.get_busy():
+                    pygame.mixer.Sound.stop(walk)
                     pygame.mixer.Sound.play(jump)
                 
                 direction = "left"
