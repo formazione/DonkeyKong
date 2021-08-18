@@ -174,7 +174,7 @@ barrelPic = []
 
 brokenHeart = pygame.image.load("broken-heart.png")
 fullHeart = pygame.image.load("full-heart.png")
-
+clock = pygame.time.Clock()
 #declares values for 400 confetti pieces
 for i in range(0, 400):
     #chooses random x value and appends it to list
@@ -205,20 +205,14 @@ def instructions():
     print ("Donkey Kong has kidnapped Pauline!")
     print ("You must now help Mario save her by climbing all the way")
     print ("up the structure to the platform where she is being held.")
-    print
     print ("You will have three lives, and you get points by rescuing")
     print ("Pauline and jumping over barrels.")
     print ("To win, save her 5 times or get a score of 999999 or over.")
-    print
     print ("Use the arrow keys to move, and press the space to jump.")
-    print
     print ("In the menus, use the up and down keys to choose your option")
     print ("and the return key to select it.")
-    print
     print ("GOOD LUCK!")
-    print
-    raw_input("Hit return when you are done reading the instructions: ")
-    print
+
 
 
 # getName - user inputs name
@@ -226,15 +220,8 @@ def instructions():
 # @return: name(str)
 def getName():
     
-    #user input
-    name = raw_input("Please enter your name: ")
     
-    #keep looping until the name being inputted hasn't been already used
-    while leaderboard.has_key(name):
-        print ("You have already entered this name.")
-        print
-        name = raw_input("Please enter a different name: ")
-        
+
     return name
 
 
@@ -244,16 +231,11 @@ def getName():
 def highScore():
     
     #adds user's score
-    leaderboard[name] = score
+    leaderboard["Player"] = score
     
     #sorting the scores from least to greatest
     scores = leaderboard.values()
-    scores.sort()
     
-    #finds the highest score
-    highestScore = scores[len(scores)-1]
-    
-    return highestScore
 
 
 # outputLeaderboard - sorts the scores from greatest to least and ouputs it
@@ -266,38 +248,35 @@ def outputLeaderboard():
     scores = leaderboard.values()
     names = leaderboard.keys()
     sortedNames = []
+
     
-    #sorting the scores
-    scores.sort()
-    
-    #goes through all the scores
-    for i in range(0, len(scores)):
-        #goes through all the names
-        for j in range(0, len(names)):
+    # #goes through all the scores
+    # for i in range(0, len(scores)):
+    #     #goes through all the names
+    #     for j in range(0, len(names)):
             
-            #checks if the name has already been sorted
-            if (names[j] in sortedNames) == False:
-                #if the score is the same as the score associated name in leaderboard, append it to the sorted names
-                if scores[i] == leaderboard[names[j]]:
-                    sortedNames.append(names[j])
+    #         #checks if the name has already been sorted
+    #         if (names[j] in sortedNames) == False:
+    #             #if the score is the same as the score associated name in leaderboard, append it to the sorted names
+    #             if scores[i] == leaderboard[names[j]]:
+    #                 sortedNames.append(names[j])
     
-    print ("LEADERBOARD")
-    print ("***********")
+    # print ("LEADERBOARD")
+    # print ("***********")
     
-    #goes through all the scores
-    for i in range(len(leaderboard)-1, -1, -1):
+    # #goes through all the scores
+    # for i in range(len(leaderboard)-1, -1, -1):
         
-        #if it is not the first time the loop is going and the score is different from the previous score, and 1 to the ranks
-        if i < len(leaderboard)-1:
-            if scores[i] != scores[i+1]:
-                rank = rank + 1
+    #     #if it is not the first time the loop is going and the score is different from the previous score, and 1 to the ranks
+    #     if i < len(leaderboard)-1:
+    #         if scores[i] != scores[i+1]:
+    #             rank = rank + 1
         
-        #output
-        print (rank, "|", sortedNames[i], ":", scores[i])
-        
-    print
-    print ("THANKS FOR PLAYING! :)")
-    print
+    #     #output
+    #     print (rank, "|", sortedNames[i], ":", scores[i])
+
+    # print ("THANKS FOR PLAYING! :)")
+
 
 
 # collide - checks whether or not mario has collided into a barrel
@@ -571,17 +550,17 @@ def playersScores(scoreType, scoreX, scoreY):
         scoreX = scoreX + 24
     
     #goes through each digit/number in the string
-    for i in range(0, len(tempScore)):
-        #goes through the numbers 0 to 10
-        for j in range(0, 10):
+    # for i in range(0, len(tempScore)):
+    #     #goes through the numbers 0 to 10
+    #     for j in range(0, 10):
             
-            #change tempScore[i] to integer to compare it with j
-            #if they are equal, output the coressponding number image
-            if int(tempScore[i]) == j:
-                screen.blit(whiteNumbers[j], (scoreX, scoreY))
+    #         #change tempScore[i] to integer to compare it with j
+    #         #if they are equal, output the coressponding number image
+    #         if int(tempScore[i]) == j:
+    #             screen.blit(whiteNumbers[j], (scoreX, scoreY))
                 
-                #add 24 to space the number out each time
-                scoreX = scoreX + 24
+    #             #add 24 to space the number out each time
+    #             scoreX = scoreX + 24
 
 
 # win - images outputed when you complete a level
@@ -740,14 +719,12 @@ def redraw_screen():
 instructions()
 
 #loop whole game if user wants to keep restarting
+pygame.init()
+walk = pygame.mixer.Sound("walking\\walking.wav")
 while replay:
-    
-    #setting up
-    name = getName()
+
     
     #start creating a graphical program
-    pygame.init()
-    
     #Set Screen Dimensions
     WIDTH = 800
     HEIGHT = 800
@@ -1210,7 +1187,6 @@ while replay:
             if keys[pygame.K_LEFT] and moveSides and (marioX != 320 or marioY > 232) and moveLeft and marioX != 60:
                 #changes mario's y to incline up/go down with the slope
                 marioY = incline(marioY, marioX, direction, "mario")
-                
                 # if mario is already facing left, subtract 5 from marioX
                 if direction == "left":
                     marioX = marioX - 5
@@ -1218,6 +1194,10 @@ while replay:
                 #if the images for mario is marioLeft change it to runLeft
                 if marioImage == marioLeft:
                     marioImage = runLeft
+                    if not pygame.mixer.get_busy():
+                        pygame.mixer.Sound.play(walk)
+
+
                 #else, change it to marioLeft
                 else:
                     marioImage = marioLeft
@@ -1228,7 +1208,6 @@ while replay:
                     marioImage = marioJumpLeft
                 
                 direction = "left"
-            
             #looks for right arrow to be pressed   
             elif keys[pygame.K_RIGHT] and moveSides and moveRight and marioX != 710:
                 #changes mario's y to incline up/go down with the slope
@@ -1237,10 +1216,11 @@ while replay:
                 #if mario was already facing right, add 5 to the x value
                 if direction == "right":
                     marioX = marioX + 5
-                
                 #if the images for mario is marioRight change it to runRight
                 if marioImage == marioRight:
                     marioImage = runRight
+                    if not pygame.mixer.get_busy():
+                        pygame.mixer.Sound.play(walk)
                 #else change it to marioRight
                 else:
                     marioImage = marioRight
@@ -1253,7 +1233,9 @@ while replay:
                 direction = "right"
             
             #looks for up arrow to be pressed   
-            elif keys[pygame.K_UP] and (upLadder or gameDone or winGame):
+            elif not keys[pygame.K_LEFT] or not keys[pygame.K_RIGHT]:
+                pygame.mixer.Sound.stop(walk)
+            if keys[pygame.K_UP] and (upLadder or gameDone or winGame):
                 # if upLadder is true, move mario up 5 pixels
                 if upLadder:
                     marioY = marioY - 5
@@ -1270,7 +1252,7 @@ while replay:
                     option = "top"
             
             #looks for down arrow to be pressed and only excutes when you can go down a ladder, and to sele
-            elif keys[pygame.K_DOWN] and (downLadder or gameDone or winGame):
+            if keys[pygame.K_DOWN] and (downLadder or gameDone or winGame):
                 #if downLadder is true, change mario's y coordinates to go down
                 if downLadder:
                     marioY = marioY + 5
@@ -1351,25 +1333,21 @@ while replay:
                     #reset variables
                     inPlay = False
                     replay = False
-        
-        #if it is True then redraw the screen
+        clock.tick(30)
+        pygame.display.update()      
         if inPlay:
             redraw_screen()                 # the screen window must be constantly redrawn - animation
-            pygame.time.delay(30)           # pause for 20 miliseconds
+            # pygame.time.delay(30)           # pause for 20 miliseconds
         
-        #if it is True, delay the program for 2 seconds to see the startScreen for longer 
         if startOutput:
-            pygame.time.delay(2000)
+            # pygame.time.delay(2000)
             
-            #re-set variables
             startOutput = False
             gameStart = True
         
-        #if it is True, delay the program for 2.5 seconds to see your victory for longer 
         if winGameSceneOutput:
-            pygame.time.delay(2500)
+            # pygame.time.delay(2500)
             
-            #re-set variables
             winGameSceneOutput = False
             winGameSceneDone = True
     
