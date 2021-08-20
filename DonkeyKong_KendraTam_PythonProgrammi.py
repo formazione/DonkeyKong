@@ -282,7 +282,7 @@ def outputLeaderboard():
 # collide - checks whether or not mario has collided into a barrel
 # @param: none
 # @return: hit(boolean)
-def collide():
+def collide() -> bool:
     global hit
     
     #goes through all the barrels
@@ -636,7 +636,7 @@ def redraw_screen():
     screen.fill(BLACK)
     
     #drawing commands
-    
+
     #if game is done, output end screen and user and high score
     if gameDone:
         #calls drawing fucntions
@@ -726,29 +726,29 @@ intro = pygame.mixer.Sound("intro1\\intro1.wav")
 death = pygame.mixer.Sound("death\\death.wav")
 bac = pygame.mixer.music.load("bacmusic\\bacmusic.wav")
 death_cnt = 0
+#start creating a graphical program
+#Set Screen Dimensions
+WIDTH = 800
+HEIGHT = 800
+screen = pygame.display.set_mode((WIDTH,HEIGHT))
+
+#Name of Window Opened
+pygame.display.set_caption('Donkey Kong')
+
+#starting game play
+inPlay = True
+pygame.mixer.music.play(-1)
+
+
+    
+
 while replay:
-
-    
-    #start creating a graphical program
-    #Set Screen Dimensions
-    WIDTH = 800
-    HEIGHT = 800
-    screen = pygame.display.set_mode((WIDTH,HEIGHT))
-    
-    #Name of Window Opened
-    pygame.display.set_caption('Donkey Kong')
-    
-    #starting game play
-    inPlay = True
-    print ("Hit ESC to end the program.")
-    try:
-        pygame.mixer.music.play(-1)
-    except:
-        pygame.mixer.init()
-
 
     #keep looping and keeping graphical interface is run while inPlay is true
     while inPlay:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
         
         #if the climbing is happening, check how much DK has climbed
         if pressed == True and climbDone == False:
@@ -1193,6 +1193,8 @@ while replay:
             pressed = True
             if not pygame.mixer.get_busy():
                 pygame.mixer.Sound.play(intro)
+
+
         
         #must satisfy all these conditions in order for pressing  the left, right, up, down, space(for jumping), and return key to do anything
         if (gameStart and jumpLeft == False and jumpRight == False and jumpStill == False and winLevel == False and hit == False) or gameDone or winGame:      
@@ -1246,7 +1248,8 @@ while replay:
                 if keys[pygame.K_SPACE]:
                     jumpRight = True
                     marioImage = marioJumpRight
-                
+                    pygame.mixer.Sound.stop(walk)
+                    pygame.mixer.Sound.play(jump)
                 direction = "right"
             
             #looks for up arrow to be pressed   
@@ -1367,9 +1370,8 @@ while replay:
             
             winGameSceneOutput = False
             winGameSceneDone = True
-    
-    pygame.quit()                       # always quit pygame when done!        
-#---------------------------------------#
 
-#outputs the leaderboard on the console
-outputLeaderboard()
+    #---------------------------------------#
+    pygame.quit()                      # always quit pygame when done!        
+
+pygame.quit
