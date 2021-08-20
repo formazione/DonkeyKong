@@ -723,6 +723,7 @@ pygame.init()
 walk = pygame.mixer.Sound("walking\\walking.wav")
 jump = pygame.mixer.Sound("jump\\jump.wav")
 intro = pygame.mixer.Sound("intro1\\intro1.wav")
+bac = pygame.mixer.music.load("bacmusic\\bacmusic.wav")
 while replay:
 
     
@@ -738,8 +739,7 @@ while replay:
     #starting game play
     inPlay = True
     print ("Hit ESC to end the program.")
-    print
-    
+    pygame.mixer.music.play(-1)    
     #keep looping and keeping graphical interface is run while inPlay is true
     while inPlay:
         
