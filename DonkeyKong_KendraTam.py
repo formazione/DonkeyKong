@@ -723,7 +723,9 @@ pygame.init()
 walk = pygame.mixer.Sound("walking\\walking.wav")
 jump = pygame.mixer.Sound("jump\\jump.wav")
 intro = pygame.mixer.Sound("intro1\\intro1.wav")
+death = pygame.mixer.Sound("death\\death.wav")
 bac = pygame.mixer.music.load("bacmusic\\bacmusic.wav")
+death_cnt = 0
 while replay:
 
     
@@ -1026,6 +1028,9 @@ while replay:
             #else, mario gets hit, start the death sequences
             else:
                 #if the deathScene is not done
+                if not pygame.mixer.get_busy():
+                    pygame.mixer.Sound.play(death)
+
                 if deathScene == False:
                     #moves the dead mario's y coordinates down to make sure he rests where his feet were, not where his head was
                     if deathCount == 0:
